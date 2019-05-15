@@ -1,0 +1,99 @@
+@import "./partials/_setup";
+@import "./partials/_base";
+
+body {
+  min-height: 100vh;
+  background: url('./../assets/background.jpg') 50% 50%/cover; 
+}
+.darken {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9))
+}
+.wrapper {
+  max-width: 760px;
+  width: 90%;
+  margin: 0 auto;
+}
+header {
+  padding-top: 10vh;
+  text-align: center;
+}
+.input-wrapper {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 1.3;
+  margin: 60px auto 60px;;
+}
+input {
+  width: 4rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0px 10px;
+  border: none;
+  font-size: 1.5rem;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+// .input-wrapper {
+//   display: flex;
+//   flex-wrap: wrap;
+//   max-width: 600px;
+//   text-align: center;
+//   margin: 20px auto;
+
+//   div {
+//     flex: 1 1 200px;
+//     margin: 20px auto;
+//   }
+//   input {
+//     width: 80%;
+//     margin: 10px 10%;
+//     font-size: 1rem;
+//     background: none;
+//     border: none;
+//     border-bottom: 2px white solid;
+//   }
+//   .input-box {
+//     position: relative;
+//     margin-bottom: 1.5rem;
+//   }
+//   .input-label {
+//     position: absolute;
+//     left: 0;
+//     padding: 7px 0 0 10%;
+//     transition: all 200ms;
+//     opacity: 0.5;
+//     pointer-events: none;
+//   }
+//   input:focus + .input-label,
+//   input:valid + .input-label  {
+//     font-size: 75%;
+//     transform: translateY(-100%);
+//     opacity: 1;
+//   }
+//   input:invalid {
+//     box-shadow: none;
+//   }
+//   span {
+//     font-size: .8rem;
+//     text-align: left;
+//     display: block;
+//     padding-left: 10%;
+//   }
+// }
+button {
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  padding: 5px 20px;
+  color: #fff;
+  margin: 20px auto;
+  display: block;
+  transition: all 200ms;
+
+  &:hover {
+    background: #fff;
+    color: #000;
+  }
+}

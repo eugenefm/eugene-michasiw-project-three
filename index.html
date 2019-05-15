@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./styles/styles.css">
+  <title>Meditate.ninja</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300|Playfair+Display:700" rel="stylesheet">
+
+</head>
+<body>
+  <div class="darken">
+    <header class="wrapper">
+      <div class="logo">
+        <h1>Meditate.<span>ninja</span></h1>
+        <p>A simple meditation timer.</p>
+      </div>
+    </header>
+    <main class="wrapper">
+      <div class="form-wrapper">
+        <form action="">
+          <div class="input-wrapper">
+              <span>I want to meditate for</span>
+                <input type="textbox" name="time" id="time" placeholder="30" value="30">
+              <label for="time" class="visuallyHidden">Meditation Time</label>
+              <span>minutes with an interval bell every </span>
+              <input type="textbox" name="interval" id="time" placeholder="5" value="5">
+              <label for="time" class="visuallyHidden">Interval</label>
+              <span>minutes.</span>
+          </div>
+          <div class="countdown">
+          </div>
+          <button>Meditate</button>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="./scripts/scripts.js"></script>
+</body>
+</html>
