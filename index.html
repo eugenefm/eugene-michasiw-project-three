@@ -23,16 +23,18 @@
         <form action="">
           <div class="input-wrapper">
               <span>I want to meditate for</span>
-                <input type="textbox" class="number-input" name="time" id="time" placeholder="30" value="30">
+                <input type="textbox" class="number-input" name="time" id="time" placeholder="30">
               <label for="time" class="visuallyHidden">Meditation Time</label>
               <span>minutes with an interval bell every </span>
-              <input class="number-input" type="textbox" name="interval" id="time" placeholder="5" value="5">
+              <input class="number-input" type="textbox" name="interval" id="time" placeholder="5">
               <label for="time" class="visuallyHidden">Interval</label>
               <span>minutes.</span>
           </div>
           <div class="countdown">
           </div>
-          <button>Meditate</button>
+          <button class="begin-meditation">Meditate</button>
+          <button class="end-meditation hide-button">End Meditation</button>
+          
           <div class="error"></div>
         </form>
       </div>

@@ -61,6 +61,9 @@ button {
   font-size: 4rem;
   text-align: center;
 }
+.hide-button {
+  display: none;
+}
 
 @media only screen and (max-width: 500px) {
   .input-wrapper {

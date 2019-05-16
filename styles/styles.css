@@ -282,6 +282,10 @@ button:hover {
   text-align: center;
 }
 
+.hide-button {
+  display: none;
+}
+
 @media only screen and (max-width: 500px) {
   .input-wrapper {
     font-size: 1.2rem;

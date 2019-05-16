@@ -39,8 +39,10 @@ mediApp.filterNumberInputs = () => {
 }
 
 mediApp.getInput = () => {
-  $('form').on('submit', function(e) {
+  $('.begin-meditation').on('click', function(e) {
     e.preventDefault();
+    $('.begin-meditation').toggleClass('hide-button');
+    $('.end-meditation').toggleClass('hide-button');
     const $time = $('input[name=time]');
     const $interval = $('input[name=interval]');
     $('.error').empty()
@@ -92,7 +94,7 @@ mediApp.countdown = (time) => {
       if (t.total <= 0) { clearInterval(timeinterval); }
     }
     updateClock(); // run function once at first to avoid delay
-    var timeinterval = setInterval(updateClock, 1000);
+    const timeinterval = setInterval(updateClock, 1000);
   }
   runClock('clockdiv', deadline);
   
