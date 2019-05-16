@@ -67,7 +67,8 @@ mediApp.getInput = () => {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
       mediApp.hideInputs();
-      mediApp.countdown(mediApp.meditationTime)
+      mediApp.countdown(0.5, true)
+      
     }
       
   });
@@ -77,7 +78,7 @@ mediApp.hideInputs = () => {
   $('.input-wrapper').hide()
   console.log(mediApp.meditationTime, mediApp.intervalTime)
 }
-mediApp.countdown = (time) => {
+mediApp.countdown = (time, prepare) => {
   // Countdown timer adapted from https://codepen.io/yaphi1/pen/KpbRZL?editors=0010#0
   const currentTime = Date.parse(new Date());
   const deadline = new Date(currentTime + time * 60 * 1000);
@@ -100,7 +101,12 @@ mediApp.countdown = (time) => {
       const displaySeconds = (t.seconds < 10 ? '0' : '') + t.seconds;
       $countdown.html(`<p>${displayHours}${displayMinutes}:${displaySeconds}</p>`);
       mediApp.countdownTime = t.total;
-      if (t.total <= 0) { clearInterval(timeinterval); }
+      if (t.total <= 0) {  
+        if (prepare === true) {
+          mediApp.countdown(mediApp.meditationTime, false);
+        }
+        clearInterval(timeinterval); 
+      }
     }
     updateClock(); // run function once at first to avoid delay
     const timeinterval = setInterval(updateClock, 1000);
