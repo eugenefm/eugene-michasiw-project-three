@@ -41,19 +41,28 @@ mediApp.filterNumberInputs = () => {
 mediApp.getInput = () => {
   $('.begin-meditation').on('click', function(e) {
     e.preventDefault();
+
+    // Toggle buttons
     $('.begin-meditation').toggleClass('hide-button');
     $('.end-meditation').toggleClass('hide-button');
+
+    // Cache the form inputs in a variable
     const $time = $('input[name=time]');
     const $interval = $('input[name=interval]');
+
+    // Clear error messages
     $('.error').empty()
 
+    // If the value of the inputs is blank save the placeholder to a variable, otherwise save the value to a variable
     if ($time.val() === '' ) {
       mediApp.meditationTime = Number($time.attr('placeholder'));
     } else { mediApp.meditationTime = Number($time.val()); }
 
     if ($interval.val() === '') {
       mediApp.intervalTime = Number($interval.attr('placeholder'));
-    } else { mediApp.intervalTime = Number($interval.val()); }  
+    } else { mediApp.intervalTime = Number($interval.val()); } 
+    
+    // If interval is greater than total, show an 
     if (mediApp.intervalTime > mediApp.meditationTime) {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
