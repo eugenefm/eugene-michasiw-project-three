@@ -25,16 +25,20 @@
   };
 }(jQuery));
 
-$(".number-input").inputFilter(function (value) {
-  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 999);
-});
 
 const mediApp = {};
 
 mediApp.meditationTime = 0;
 mediApp.intervalTime = 0;
+mediApp.countdownTime = 0;
 
-mediApp.getInput = function() {
+mediApp.filterNumberInputs = () => {
+  $(".number-input").inputFilter(function (value) {
+    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 999);
+  });
+}
+
+mediApp.getInput = () => {
   $('form').on('submit', function(e) {
     e.preventDefault();
     const $time = $('input[name=time]');
@@ -51,12 +55,52 @@ mediApp.getInput = function() {
     if (mediApp.intervalTime > mediApp.meditationTime) {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
-      console.log(mediApp.meditationTime, mediApp.intervalTime);
+      mediApp.hideInputs();
+      mediApp.countdown(mediApp.meditationTime)
     }
       
   });
 }
-mediApp.init = function() {
+
+mediApp.hideInputs = () => {
+  $('.input-wrapper').hide()
+  console.log(mediApp.meditationTime, mediApp.intervalTime)
+}
+mediApp.countdown = (time) => {
+  // Countdown timer adapted from https://codepen.io/yaphi1/pen/KpbRZL?editors=0010#0
+  const currentTime = Date.parse(new Date());
+  const deadline = new Date(currentTime + time * 60 * 1000);
+
+
+  const timeRemaining = (endtime) => {
+    const t = Date.parse(endtime) - Date.parse(new Date());
+    const seconds = Math.floor((t / 1000) % 60);
+    const minutes = Math.floor((t / 1000 / 60) % 60);
+    const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(t / (1000 * 60 * 60 * 24));
+    return { 'total': t, 'days': days, 'hours': hours, 'minutes': minutes, 'seconds': seconds };
+  }
+  const runClock = (id, endtime) => {
+    const $countdown = $('.countdown');
+    updateClock = () => {
+      const t = timeRemaining(endtime);
+      const displayHours = (t.hours === 0 ? '' : t.hours + ':');
+      const displayMinutes = (t.minutes < 10 ? '0' : '') + t.minutes;
+      const displaySeconds = (t.seconds < 10 ? '0' : '') + t.seconds;
+      $countdown.html(`<p>${displayHours}${displayMinutes}:${displaySeconds}</p>`);
+      mediApp.countdownTime = t.total;
+      if (t.total <= 0) { clearInterval(timeinterval); }
+    }
+    updateClock(); // run function once at first to avoid delay
+    var timeinterval = setInterval(updateClock, 1000);
+  }
+  runClock('clockdiv', deadline);
+  
+
+}
+
+mediApp.init = () => {
+  mediApp.filterNumberInputs();
   mediApp.getInput();
 }
 

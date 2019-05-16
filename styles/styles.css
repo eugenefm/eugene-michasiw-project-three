@@ -277,6 +277,11 @@ button:hover {
   color: #e74c3c;
 }
 
+.countdown p {
+  font-size: 4rem;
+  text-align: center;
+}
+
 @media only screen and (max-width: 500px) {
   .input-wrapper {
     font-size: 1.2rem;
