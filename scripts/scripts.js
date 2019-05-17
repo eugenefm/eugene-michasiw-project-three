@@ -33,6 +33,14 @@ mediApp.intervalTime = 0;
 mediApp.countdownTime = 0;
 mediApp.intervalRemainder = 0;
 
+mediApp.singleGong = new Howl({
+  src: ['./assets/singleGong.mp3']
+});
+mediApp.doubleGong = new Howl({
+  src: ['./assets/doubleGong.mp3']
+});
+
+
 mediApp.filterNumberInputs = () => {
   $(".number-input").inputFilter(function (value) {
     return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 999);
@@ -133,12 +141,6 @@ mediApp.calculatIntervals = () => {
   console.log(mediApp.intervalRemainder)
 }
 
-mediApp.singleGong = new Howl({
-  src: ['./assets/singleGong.mp3']
-});
-mediApp.doubleGong = new Howl({
-  src: ['./assets/doubleGong.mp3']
-});
 
 
 mediApp.init = () => {
