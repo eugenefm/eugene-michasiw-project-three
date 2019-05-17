@@ -32,15 +32,15 @@ mediApp.meditationTime = 0;
 mediApp.intervalTime = 0;
 mediApp.countdownTime = 0;
 mediApp.intervalRemainder = 0;
-mediApp.timeinterval = '';
 mediApp.noSleep = new NoSleep();
 
-const $countdown = $(`.countdown`);
-const $inputs = $(`.input-wrapper`);
-const $subheading = $(`.logo div`);
-const $resetButton = $(`.reset-meditation`);
-const $beginButton = $(`.begin-meditation`)
-const $endMessage = $(`.end-message`)
+// Caching elements to jquery variable
+mediApp.$countdown = $(`.countdown`);
+mediApp.$inputs = $(`.input-wrapper`);
+mediApp.$subheading = $(`.logo div`);
+mediApp.$resetButton = $(`.reset-meditation`);
+mediApp.$beginButton = $(`.begin-meditation`)
+mediApp.$endMessage = $(`.end-message`)
 
 
 // Howler.usingWebAudio = false;
@@ -61,35 +61,35 @@ mediApp.filterNumberInputs = () => {
 }
 
 mediApp.reset = () => {
-  $resetButton.on('click', function(e) {
+  mediApp.$resetButton.on('click', function(e) {
     e.preventDefault();
 
-    $beginButton.toggleClass('hide-button');
-    $resetButton.toggleClass('hide-button');
+    mediApp.$beginButton.toggleClass('hide-button');
+    mediApp.$resetButton.toggleClass('hide-button');
 
-    $resetButton.text('End Meditation')
+    mediApp.$resetButton.text('End Meditation')
 
     mediApp.meditationTime = 0;
     mediApp.intervalTime = 0;
     mediApp.countdownTime = 0;
     mediApp.intervalRemainder = 0;
 
-    $countdown.hide();
-    $endMessage.hide();
-    $inputs.show();
+    mediApp.$countdown.hide();
+    mediApp.$endMessage.hide();
+    mediApp.$inputs.show();
 
   });
 }
 
 mediApp.getInput = () => {
-  $beginButton.on('click', function(e) {
+  mediApp.$beginButton.on('click', function(e) {
     e.preventDefault();
     mediApp.singleGong.play();
     mediApp.noSleep.enable();
 
     // Toggle buttons
-    $beginButton.toggleClass('hide-button');
-    $resetButton.toggleClass('hide-button');
+    mediApp.$beginButton.toggleClass('hide-button');
+    mediApp.$resetButton.toggleClass('hide-button');
 
     // Cache the form inputs in a variable
     const $time = $('input[name=time]');
@@ -111,7 +111,7 @@ mediApp.getInput = () => {
     if (mediApp.intervalTime > mediApp.meditationTime) {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
-      $inputs.hide();
+      mediApp.$inputs.hide();
       mediApp.countdown(0.5, true);
       mediApp.calculatIntervals();
     }
@@ -120,38 +120,41 @@ mediApp.getInput = () => {
 }
 
 mediApp.endMessage = () => {
-  $countdown.hide();
-  $endMessage.html(`<p>Your meditation has ended.<p>`);
-  $subheading.html(`<p>A simple meditation timer.</p>`);
-  $resetButton.text('Restart')
+  mediApp.$countdown.hide();
+  mediApp.$endMessage.html(`<p>Your meditation has ended.<p>`);
+  mediApp.$subheading.html(`<p>A simple meditation timer.</p>`);
+  mediApp.$resetButton.text('Restart')
 }
-
+// Countdown timer inspired by https://codepen.io/yaphi1/pen/KpbRZL?editors=0010#0
 mediApp.countdown = (time, prepare) => {
-  $countdown.show();
-  // Countdown timer adapted from https://codepen.io/yaphi1/pen/KpbRZL?editors=0010#0
+  // Ensure countdown is shown
+  mediApp.$countdown.show();
+  
+  // Get current time and calculate a time the given number of minutes in the future.
   const currentTime = Date.parse(new Date());
   const deadline = new Date(currentTime + time * 60 * 1000);
 
+  // Change countdown description
   if (prepare === true) {
 
-    $($subheading).html(`<p class="instructions">Meditation Will Begin In:</p>`);
+    $(mediApp.$subheading).html(`<p class="instructions">Meditation Will Begin In:</p>`);
 
   } else {
 
-    $($subheading ).html(`<p class="instructions">Time Remaining:</p>`);
+    $(mediApp.$subheading ).html(`<p class="instructions">Time Remaining:</p>`);
   
   }
 
+  // 
   const runClock = (id, endtime) => {
     
-    // const $countdown = $('.countdown');
-    updateClock = () => {
+    const updateClock = () => {
       const t = mediApp.timeRemaining(endtime);
       const displayHours = (t.hours === 0 ? '' : t.hours + ':');
       const displayMinutes = (t.minutes < 10 ? '0' : '') + t.minutes;
       const displaySeconds = (t.seconds < 10 ? '0' : '') + t.seconds;
 
-      $countdown.html(`<p class="time">${displayHours}${displayMinutes}:${displaySeconds}</p>`);
+      mediApp.$countdown.html(`<p class="time">${displayHours}${displayMinutes}:${displaySeconds}</p>`);
       mediApp.countdownTime = t.total;
 
         // Play interval gongs if the total is divisable by the interval.
@@ -191,7 +194,6 @@ mediApp.timeRemaining = (endtime) => {
 
 mediApp.calculatIntervals = () => {
   mediApp.intervalRemainder = (mediApp.meditationTime % mediApp.intervalTime) * 60 * 1000;
-  console.log(mediApp.intervalRemainder)
 }
 
 
