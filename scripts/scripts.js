@@ -134,7 +134,7 @@ mediApp.countdown = (time, prepare) => {
 
   if (prepare === true) {
 
-    $($subheading).html(`<p class="instructions">Meditation Begins:</p>`);
+    $($subheading).html(`<p class="instructions">Meditation Will Begin In:</p>`);
 
   } else {
 
