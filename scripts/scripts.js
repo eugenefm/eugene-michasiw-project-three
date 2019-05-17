@@ -31,6 +31,7 @@ const mediApp = {};
 mediApp.meditationTime = 0;
 mediApp.intervalTime = 0;
 mediApp.countdownTime = 0;
+mediApp.intervalRemainder = 0;
 
 mediApp.filterNumberInputs = () => {
   $(".number-input").inputFilter(function (value) {
@@ -38,9 +39,11 @@ mediApp.filterNumberInputs = () => {
   });
 }
 
+
 mediApp.getInput = () => {
   $('.begin-meditation').on('click', function(e) {
     e.preventDefault();
+    mediApp.singleGong.play();
 
     // Toggle buttons
     $('.begin-meditation').toggleClass('hide-button');
@@ -62,13 +65,13 @@ mediApp.getInput = () => {
       mediApp.intervalTime = Number($interval.attr('placeholder'));
     } else { mediApp.intervalTime = Number($interval.val()); } 
     
-    // If interval is greater than total, show an 
+    // If interval is greater than total, show an error. Otherwise hide inputs and begin the countdown.
     if (mediApp.intervalTime > mediApp.meditationTime) {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
       mediApp.hideInputs();
-      mediApp.countdown(0.5, true)
-      
+      mediApp.countdown(0.1, true);
+      mediApp.calculatIntervals();
     }
       
   });
@@ -83,25 +86,25 @@ mediApp.countdown = (time, prepare) => {
   const currentTime = Date.parse(new Date());
   const deadline = new Date(currentTime + time * 60 * 1000);
 
-
-  const timeRemaining = (endtime) => {
-    const t = Date.parse(endtime) - Date.parse(new Date());
-    const seconds = Math.floor((t / 1000) % 60);
-    const minutes = Math.floor((t / 1000 / 60) % 60);
-    const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(t / (1000 * 60 * 60 * 24));
-    return { 'total': t, 'days': days, 'hours': hours, 'minutes': minutes, 'seconds': seconds };
-  }
   const runClock = (id, endtime) => {
     const $countdown = $('.countdown');
     updateClock = () => {
-      const t = timeRemaining(endtime);
+      const t = mediApp.timeRemaining(endtime);
       const displayHours = (t.hours === 0 ? '' : t.hours + ':');
       const displayMinutes = (t.minutes < 10 ? '0' : '') + t.minutes;
       const displaySeconds = (t.seconds < 10 ? '0' : '') + t.seconds;
       $countdown.html(`<p>${displayHours}${displayMinutes}:${displaySeconds}</p>`);
       mediApp.countdownTime = t.total;
+
+      // Trigger interval sounds
+      if (prepare === false) {
+        if ((t.total - mediApp.intervalRemainder) % (mediApp.intervalTime * 60 * 1000) === 0 && t.minutes != mediApp.meditationTime && t.total != 0) {
+          mediApp.singleGong.play();
+        }
+      }
+      
       if (t.total <= 0) {  
+        mediApp.doubleGong.play();
         if (prepare === true) {
           mediApp.countdown(mediApp.meditationTime, false);
         }
@@ -115,6 +118,28 @@ mediApp.countdown = (time, prepare) => {
   
 
 }
+
+mediApp.timeRemaining = (endtime) => {
+  const t = Date.parse(endtime) - Date.parse(new Date());
+  const seconds = Math.floor((t / 1000) % 60);
+  const minutes = Math.floor((t / 1000 / 60) % 60);
+  const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return { 'total': t, 'days': days, 'hours': hours, 'minutes': minutes, 'seconds': seconds };
+}
+
+mediApp.calculatIntervals = () => {
+  mediApp.intervalRemainder = (mediApp.meditationTime % mediApp.intervalTime) * 60 * 1000;
+  console.log(mediApp.intervalRemainder)
+}
+
+mediApp.singleGong = new Howl({
+  src: ['./assets/singleGong.mp3']
+});
+mediApp.doubleGong = new Howl({
+  src: ['./assets/doubleGong.mp3']
+});
+
 
 mediApp.init = () => {
   mediApp.filterNumberInputs();
