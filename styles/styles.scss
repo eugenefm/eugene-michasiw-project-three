@@ -20,7 +20,7 @@ header {
   padding-top: 10vh;
   text-align: center;
 }
-.input-wrapper {
+.input-wrapper, .end-message {
   display: block;
   text-align: center;
   font-size: 2rem;
@@ -57,9 +57,14 @@ button {
   font-size: .9rem;
   color: #e74c3c;
 }
-.countdown p {
+p.time {
   font-size: 4rem;
   text-align: center;
+  margin-top: 0;
+}
+p.instructions {
+  margin-top: 40px;
+  margin-bottom: 0px;
 }
 .hide-button {
   display: none;

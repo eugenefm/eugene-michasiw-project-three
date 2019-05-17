@@ -15,7 +15,9 @@
     <header class="wrapper">
       <div class="logo">
         <h1>Meditate.<span>ninja</span></h1>
-        <p>A simple meditation timer.</p>
+        <div>
+          <p>A simple meditation timer.</p>
+        </div>
       </div>
     </header>
     <main class="wrapper">
@@ -30,10 +32,10 @@
               <label for="time" class="visuallyHidden">Interval</label>
               <span>minutes.</span>
           </div>
-          <div class="countdown">
-          </div>
+          <div class="countdown"></div>
+          <div class="end-message"></div>
           <button class="begin-meditation">Meditate</button>
-          <button class="end-meditation hide-button">End Meditation</button>
+          <button class="reset-meditation hide-button">End Meditation</button>
           
           <div class="error"></div>
         </form>
@@ -41,7 +43,8 @@
     </main>
   </div>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js"></script>
+  <script src="./scripts/NoSleep.min.js"></script>
   <script src="./scripts/scripts.js"></script>
 </body>
 </html>

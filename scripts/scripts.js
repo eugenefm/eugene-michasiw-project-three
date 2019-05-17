@@ -32,12 +32,25 @@ mediApp.meditationTime = 0;
 mediApp.intervalTime = 0;
 mediApp.countdownTime = 0;
 mediApp.intervalRemainder = 0;
+mediApp.timeinterval = '';
+mediApp.noSleep = new NoSleep();
 
+const $countdown = $(`.countdown`);
+const $inputs = $(`.input-wrapper`);
+const $subheading = $(`.logo div`);
+const $resetButton = $(`.reset-meditation`);
+const $beginButton = $(`.begin-meditation`)
+const $endMessage = $(`.end-message`)
+
+
+// Howler.usingWebAudio = false;
+
+// Uses Howler.js to play audio. It's required for it to work on mobile. However the current version throws an error in Firefox and is a known issue.
 mediApp.singleGong = new Howl({
-  src: ['./assets/singleGong.mp3']
+  src: ['./assets/singleGong.ogg', './assets/singleGong.mp3']
 });
 mediApp.doubleGong = new Howl({
-  src: ['./assets/doubleGong.mp3']
+  src: ['./assets/doubleGong.ogg', './assets/doubleGong.mp3']
 });
 
 
@@ -47,15 +60,36 @@ mediApp.filterNumberInputs = () => {
   });
 }
 
+mediApp.reset = () => {
+  $resetButton.on('click', function(e) {
+    e.preventDefault();
+
+    $beginButton.toggleClass('hide-button');
+    $resetButton.toggleClass('hide-button');
+
+    $resetButton.text('End Meditation')
+
+    mediApp.meditationTime = 0;
+    mediApp.intervalTime = 0;
+    mediApp.countdownTime = 0;
+    mediApp.intervalRemainder = 0;
+
+    $countdown.hide();
+    $endMessage.hide();
+    $inputs.show();
+
+  });
+}
 
 mediApp.getInput = () => {
-  $('.begin-meditation').on('click', function(e) {
+  $beginButton.on('click', function(e) {
     e.preventDefault();
     mediApp.singleGong.play();
+    mediApp.noSleep.enable();
 
     // Toggle buttons
-    $('.begin-meditation').toggleClass('hide-button');
-    $('.end-meditation').toggleClass('hide-button');
+    $beginButton.toggleClass('hide-button');
+    $resetButton.toggleClass('hide-button');
 
     // Cache the form inputs in a variable
     const $time = $('input[name=time]');
@@ -77,50 +111,69 @@ mediApp.getInput = () => {
     if (mediApp.intervalTime > mediApp.meditationTime) {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
-      mediApp.hideInputs();
-      mediApp.countdown(0.1, true);
+      $inputs.hide();
+      mediApp.countdown(0.5, true);
       mediApp.calculatIntervals();
     }
       
   });
 }
 
-mediApp.hideInputs = () => {
-  $('.input-wrapper').hide()
-  console.log(mediApp.meditationTime, mediApp.intervalTime)
+mediApp.endMessage = () => {
+  $countdown.hide();
+  $endMessage.html(`<p>Your meditation has ended.<p>`);
+  $subheading.html(`<p>A simple meditation timer.</p>`);
+  $resetButton.text('Restart')
 }
+
 mediApp.countdown = (time, prepare) => {
+  $countdown.show();
   // Countdown timer adapted from https://codepen.io/yaphi1/pen/KpbRZL?editors=0010#0
   const currentTime = Date.parse(new Date());
   const deadline = new Date(currentTime + time * 60 * 1000);
 
+  if (prepare === true) {
+
+    $($subheading).html(`<p class="instructions">Meditation Begins:</p>`);
+
+  } else {
+
+    $($subheading ).html(`<p class="instructions">Time Remaining:</p>`);
+  
+  }
+
   const runClock = (id, endtime) => {
-    const $countdown = $('.countdown');
+    
+    // const $countdown = $('.countdown');
     updateClock = () => {
       const t = mediApp.timeRemaining(endtime);
       const displayHours = (t.hours === 0 ? '' : t.hours + ':');
       const displayMinutes = (t.minutes < 10 ? '0' : '') + t.minutes;
       const displaySeconds = (t.seconds < 10 ? '0' : '') + t.seconds;
-      $countdown.html(`<p>${displayHours}${displayMinutes}:${displaySeconds}</p>`);
+
+      $countdown.html(`<p class="time">${displayHours}${displayMinutes}:${displaySeconds}</p>`);
       mediApp.countdownTime = t.total;
 
-      // Trigger interval sounds
-      if (prepare === false) {
-        if ((t.total - mediApp.intervalRemainder) % (mediApp.intervalTime * 60 * 1000) === 0 && t.minutes != mediApp.meditationTime && t.total != 0) {
-          mediApp.singleGong.play();
-        }
+        // Play interval gongs if the total is divisable by the interval.
+      if ((t.total - mediApp.intervalRemainder) % (mediApp.intervalTime * 60 * 1000) === 0 && t.minutes != mediApp.meditationTime && t.total != 0 && prepare === false) {
+        mediApp.singleGong.play();
       }
-      
+    
       if (t.total <= 0) {  
         mediApp.doubleGong.play();
+
         if (prepare === true) {
           mediApp.countdown(mediApp.meditationTime, false);
+        } else {
+          mediApp.endMessage();
+          mediApp.noSleep.disable();
         }
+
         clearInterval(timeinterval); 
       }
     }
     updateClock(); // run function once at first to avoid delay
-    const timeinterval = setInterval(updateClock, 1000);
+    const timeinterval = setInterval(updateClock, 1000)
   }
   runClock('clockdiv', deadline);
   
@@ -146,6 +199,8 @@ mediApp.calculatIntervals = () => {
 mediApp.init = () => {
   mediApp.filterNumberInputs();
   mediApp.getInput();
+  // mediApp.reset();
+  
 }
 
 $(function () {
