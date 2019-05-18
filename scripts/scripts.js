@@ -42,6 +42,8 @@ mediApp.$subheading = $(`.logo div`);
 mediApp.$resetButton = $(`.reset-meditation`);
 mediApp.$beginButton = $(`.begin-meditation`)
 mediApp.$endMessage = $(`.end-message`)
+mediApp.$background1 = $(`.background-1`)
+mediApp.$background2 = $(`.background-2`)
 
 
 // Howler.usingWebAudio = false;
@@ -97,7 +99,8 @@ mediApp.reset = () => {
   mediApp.rainNoise.pause();
   mediApp.forestNoise.pause();
   mediApp.creekNoise.pause();
-  // mediApp.getInput();
+
+  mediApp.$background2.fadeIn()
 }
 
 mediApp.getInput = () => {
@@ -134,11 +137,16 @@ mediApp.getInput = () => {
       mediApp.$resetButton.toggleClass('hide-button');
       mediApp.$inputs.hide();
       if ($noise === `river`) {
-        console.log('river')
+        mediApp.$background1.css(`background`, `url('./../assets/river.jpg') 50% 50%/cover no-repeat`)
+        mediApp.$background2.fadeOut()
         mediApp.creekNoise.play();
       } else if ($noise === `forest`) {
+        mediApp.$background1.css(`background`, `url('./../assets/forest.jpg') 50% 50%/cover no-repeat`)
+        mediApp.$background2.fadeOut()
         mediApp.forestNoise.play();
       } else if ($noise === `rain`) {
+        mediApp.$background1.css(`background`, `url('./../assets/rain.jpg') 50% 50%/cover no-repeat`)
+        mediApp.$background2.fadeOut()
         mediApp.rainNoise.play();
       }
 
