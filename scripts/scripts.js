@@ -44,6 +44,10 @@ mediApp.$beginButton = $(`.begin-meditation`)
 mediApp.$endMessage = $(`.end-message`)
 mediApp.$background1 = $(`.background-1`)
 mediApp.$background2 = $(`.background-2`)
+mediApp.$time = $('input[name=time]');
+mediApp.$interval = $('input[name=interval]');
+mediApp.$noise = $('select[name=noise]');
+
 
 
 // Howler.usingWebAudio = false;
@@ -103,27 +107,42 @@ mediApp.reset = () => {
   mediApp.$background2.fadeIn()
 }
 
+// 
+mediApp.getParameterByName = (name) => {
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(window.location.href);
+  if (results == null && name === `noise`) {
+    return "no";
+  } else if (results == null) {
+  return "";
+  } else { 
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+}
+
+mediApp.fillFields = () => {
+  mediApp.$time.val(mediApp.getParameterByName(`time`));
+  mediApp.$interval.val(mediApp.getParameterByName(`interval`));
+  mediApp.$noise.val(mediApp.getParameterByName(`noise`));
+}
+
 mediApp.getInput = () => {
   mediApp.$beginButton.on('click', function(e) {
     e.preventDefault();
     
-
-    // Cache the form inputs in a variable
-    const $time = $('input[name=time]');
-    const $interval = $('input[name=interval]');
-    const $noise = $('select[name=noise]').val();
-
     // Clear error messages
     $('.error').empty()
 
     // If the value of the inputs is blank save the placeholder to a variable, otherwise save the value to a variable
-    if ($time.val() === '' ) {
-      mediApp.meditationTime = Number($time.attr('placeholder'));
-    } else { mediApp.meditationTime = Number($time.val()); }
+    if (mediApp.$time.val() === '' ) {
+      mediApp.meditationTime = Number(mediApp.$time.attr('placeholder'));
+    } else { mediApp.meditationTime = Number(mediApp.$time.val()); }
 
-    if ($interval.val() === '') {
-      mediApp.intervalTime = Number($interval.attr('placeholder'));
-    } else { mediApp.intervalTime = Number($interval.val()); } 
+    if (mediApp.$interval.val() === '') {
+      mediApp.intervalTime = Number(mediApp.$interval.attr('placeholder'));
+    } else { mediApp.intervalTime = Number(mediApp.$interval.val()); } 
     
     // If interval is greater than total, show an error. Otherwise hide inputs and begin the countdown.
     if (mediApp.intervalTime > mediApp.meditationTime) {
@@ -136,15 +155,15 @@ mediApp.getInput = () => {
       mediApp.$beginButton.toggleClass('hide-button');
       mediApp.$resetButton.toggleClass('hide-button');
       mediApp.$inputs.hide();
-      if ($noise === `river`) {
+      if (mediApp.$noise.val() === `river`) {
         mediApp.$background1.css(`background`, `url('./../assets/river.jpg') 50% 50%/cover no-repeat`)
         mediApp.$background2.fadeOut()
         mediApp.creekNoise.play();
-      } else if ($noise === `forest`) {
+      } else if (mediApp.$noise.val() === `forest`) {
         mediApp.$background1.css(`background`, `url('./../assets/forest.jpg') 50% 50%/cover no-repeat`)
         mediApp.$background2.fadeOut()
         mediApp.forestNoise.play();
-      } else if ($noise === `rain`) {
+      } else if (mediApp.$noise.val() === `rain`) {
         mediApp.$background1.css(`background`, `url('./../assets/rain.jpg') 50% 50%/cover no-repeat`)
         mediApp.$background2.fadeOut()
         mediApp.rainNoise.play();
@@ -176,11 +195,11 @@ mediApp.countdown = (time, prepare) => {
   // Change countdown description
   if (prepare === true) {
 
-    $(mediApp.$subheading).html(`<p class="instructions">Meditation Will Begin In:</p>`);
+    $(mediApp.$subheading).html(`<p class="instructions">Meditation will begin in:</p>`);
 
   } else {
 
-    $(mediApp.$subheading ).html(`<p class="instructions">Time Remaining:</p>`);
+    $(mediApp.$subheading ).html(`<p class="instructions">Time remaining:</p>`);
   
   }
 
@@ -244,6 +263,7 @@ mediApp.calculatIntervals = () => {
 
 mediApp.init = () => {
   mediApp.filterNumberInputs();
+  mediApp.fillFields();
   mediApp.getInput();
   // mediApp.reset();
   
