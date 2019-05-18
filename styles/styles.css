@@ -189,10 +189,25 @@ p,
 label,
 span,
 button,
-input {
+input,
+select {
   color: #fff;
   font-family: 'Open Sans', Helvetica, sans-serif;
   font-weight: 300;
+}
+
+select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+option {
+  color: black;
 }
 
 h1 {
@@ -243,7 +258,7 @@ header {
   margin: 60px auto 60px;
 }
 
-input {
+input, select {
   width: 4rem;
   background: rgba(255, 255, 255, 0.1);
   padding: 0px 10px;
@@ -252,6 +267,10 @@ input {
   border-bottom: 1px dotted rgba(255, 255, 255, 0.9);
   text-align: center;
   border-radius: 0;
+}
+
+select {
+  width: 8rem;
 }
 
 button {
@@ -297,8 +316,9 @@ p.instructions {
     font-size: 1.2rem;
     line-height: 1.6;
   }
-  input {
+  input, select {
     font-size: 1rem;
+    width: 4rem;
   }
 }
 /*# sourceMappingURL=styles.css.map */

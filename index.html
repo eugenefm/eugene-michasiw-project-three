@@ -30,7 +30,15 @@
               <span>minutes with an interval bell every </span>
               <input class="number-input" type="textbox" name="interval" id="time" placeholder="5">
               <label for="time" class="visuallyHidden">Interval</label>
-              <span>minutes.</span>
+              <span>minutes, and </span>
+              <select name="noise" id="noise">
+                  <option value="no">no</option>
+                  <option value="rain">rain</option>
+                  <option value="forest">forest</option>
+                  <option value="river">river</option>
+              </select>
+              <label for="noise" class="visuallyHidden">Background Noise</label>
+              <span>background noise.</span>
           </div>
           <div class="countdown"></div>
           <div class="end-message"></div>

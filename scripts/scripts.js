@@ -32,6 +32,7 @@ mediApp.meditationTime = 0;
 mediApp.intervalTime = 0;
 mediApp.countdownTime = 0;
 mediApp.intervalRemainder = 0;
+mediApp.backgroundNoise = '';
 mediApp.noSleep = new NoSleep();
 
 // Caching elements to jquery variable
@@ -53,6 +54,18 @@ mediApp.doubleGong = new Howl({
   src: ['./assets/doubleGong.ogg', './assets/doubleGong.mp3']
 });
 
+mediApp.rainNoise = new Howl({
+  src: ['./assets/rain.ogg', './assets/rain.m4a'],
+  loop: true
+});
+mediApp.forestNoise = new Howl({
+  src: ['./assets/forest.ogg', './assets/forest.m4a'],
+  loop: true
+});
+mediApp.creekNoise = new Howl({
+  src: ['./assets/creek.ogg', './assets/creek.m4a'],
+  loop: true
+});
 
 mediApp.filterNumberInputs = () => {
   $(".number-input").inputFilter(function (value) {
@@ -62,26 +75,29 @@ mediApp.filterNumberInputs = () => {
 
 mediApp.reset = () => {
 
-    mediApp.$resetButton.text('End Meditation')
+  mediApp.$resetButton.text('End Meditation')
 
-    mediApp.$beginButton.removeClass('hide-button');
-    mediApp.$resetButton.addClass('hide-button');
+  mediApp.$beginButton.removeClass('hide-button');
+  mediApp.$resetButton.addClass('hide-button');
 
-    mediApp.$subheading.html(`<p>A simple meditation timer.</p>`)
+  mediApp.$subheading.html(`<p>A simple meditation timer.</p>`)
 
-    mediApp.meditationTime = 0;
-    mediApp.intervalTime = 0;
-    mediApp.countdownTime = 0;
-    mediApp.intervalRemainder = 0;
+  mediApp.meditationTime = 0;
+  mediApp.intervalTime = 0;
+  mediApp.countdownTime = 0;
+  mediApp.intervalRemainder = 0;
 
-    mediApp.$countdown.hide();
-    mediApp.$endMessage.hide();
-    mediApp.$inputs.show();
+  mediApp.$countdown.hide();
+  mediApp.$endMessage.hide();
+  mediApp.$inputs.show();
 
-    currentTime = null;
-    deadline = null;
+  currentTime = null;
+  deadline = null;
 
-    // mediApp.getInput();
+  mediApp.rainNoise.pause();
+  mediApp.forestNoise.pause();
+  mediApp.creekNoise.pause();
+  // mediApp.getInput();
 }
 
 mediApp.getInput = () => {
@@ -92,6 +108,7 @@ mediApp.getInput = () => {
     // Cache the form inputs in a variable
     const $time = $('input[name=time]');
     const $interval = $('input[name=interval]');
+    const $noise = $('select[name=noise]').val();
 
     // Clear error messages
     $('.error').empty()
@@ -115,8 +132,16 @@ mediApp.getInput = () => {
       // Toggle buttons
       mediApp.$beginButton.toggleClass('hide-button');
       mediApp.$resetButton.toggleClass('hide-button');
-
       mediApp.$inputs.hide();
+      if ($noise === `river`) {
+        console.log('river')
+        mediApp.creekNoise.play();
+      } else if ($noise === `forest`) {
+        mediApp.forestNoise.play();
+      } else if ($noise === `rain`) {
+        mediApp.rainNoise.play();
+      }
+
       mediApp.countdown(0.5, true);
       mediApp.calculatIntervals();
     }
