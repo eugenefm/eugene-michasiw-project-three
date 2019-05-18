@@ -61,13 +61,13 @@ mediApp.filterNumberInputs = () => {
 }
 
 mediApp.reset = () => {
-  mediApp.$resetButton.on('click', function(e) {
-    e.preventDefault();
-
-    mediApp.$beginButton.toggleClass('hide-button');
-    mediApp.$resetButton.toggleClass('hide-button');
 
     mediApp.$resetButton.text('End Meditation')
+
+    mediApp.$beginButton.removeClass('hide-button');
+    mediApp.$resetButton.addClass('hide-button');
+
+    mediApp.$subheading.html(`<p>A simple meditation timer.</p>`)
 
     mediApp.meditationTime = 0;
     mediApp.intervalTime = 0;
@@ -78,18 +78,16 @@ mediApp.reset = () => {
     mediApp.$endMessage.hide();
     mediApp.$inputs.show();
 
-  });
+    currentTime = null;
+    deadline = null;
+
+    // mediApp.getInput();
 }
 
 mediApp.getInput = () => {
   mediApp.$beginButton.on('click', function(e) {
     e.preventDefault();
-    mediApp.singleGong.play();
-    mediApp.noSleep.enable();
-
-    // Toggle buttons
-    mediApp.$beginButton.toggleClass('hide-button');
-    mediApp.$resetButton.toggleClass('hide-button');
+    
 
     // Cache the form inputs in a variable
     const $time = $('input[name=time]');
@@ -111,6 +109,13 @@ mediApp.getInput = () => {
     if (mediApp.intervalTime > mediApp.meditationTime) {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
+      mediApp.singleGong.play();
+      mediApp.noSleep.enable();
+
+      // Toggle buttons
+      mediApp.$beginButton.toggleClass('hide-button');
+      mediApp.$resetButton.toggleClass('hide-button');
+
       mediApp.$inputs.hide();
       mediApp.countdown(0.5, true);
       mediApp.calculatIntervals();
@@ -121,6 +126,7 @@ mediApp.getInput = () => {
 
 mediApp.endMessage = () => {
   mediApp.$countdown.hide();
+  mediApp.$endMessage.show();
   mediApp.$endMessage.html(`<p>Your meditation has ended.<p>`);
   mediApp.$subheading.html(`<p>A simple meditation timer.</p>`);
   mediApp.$resetButton.text('Restart')
@@ -131,8 +137,8 @@ mediApp.countdown = (time, prepare) => {
   mediApp.$countdown.show();
   
   // Get current time and calculate a time the given number of minutes in the future.
-  const currentTime = Date.parse(new Date());
-  const deadline = new Date(currentTime + time * 60 * 1000);
+  let currentTime = Date.parse(new Date());
+  let deadline = new Date(currentTime + time * 60 * 1000);
 
   // Change countdown description
   if (prepare === true) {
@@ -174,6 +180,11 @@ mediApp.countdown = (time, prepare) => {
 
         clearInterval(timeinterval); 
       }
+      mediApp.$resetButton.on('click', function (e) {
+        e.preventDefault();
+        clearInterval(timeinterval);
+        mediApp.reset();
+      });
     }
     updateClock(); // run function once at first to avoid delay
     const timeinterval = setInterval(updateClock, 1000)
