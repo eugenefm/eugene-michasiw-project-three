@@ -179,7 +179,7 @@ mediApp.getInput = () => {
 mediApp.endMessage = () => {
   mediApp.$countdown.hide();
   mediApp.$endMessage.show();
-  mediApp.$endMessage.html(`<p>Your meditation has ended.<p>`);
+  mediApp.$endMessage.html(`<p>Your meditation has ended.</p><p class="url">Bookmark this URL to save your settings:</p><p class="url"><a href="https://meditate.ninja/?time=${mediApp.meditationTime}&interval=${mediApp.intervalTime}&noise=${mediApp.$noise.val()}">https://meditate.ninja/?time=${mediApp.meditationTime}&interval=${mediApp.intervalTime}&noise=${mediApp.$noise.val()}</a></p>`);
   mediApp.$subheading.html(`<p>A simple meditation timer.</p>`);
   mediApp.$resetButton.text('Restart')
 }
