@@ -321,7 +321,7 @@ button {
   transition: all 200ms;
 }
 
-button:hover {
+button:hover, button:focus {
   background: #fff;
   color: #000;
 }
