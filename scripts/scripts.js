@@ -144,8 +144,10 @@ mediApp.getInput = () => {
       mediApp.intervalTime = Number(mediApp.$interval.attr('placeholder'));
     } else { mediApp.intervalTime = Number(mediApp.$interval.val()); } 
     
-    // If interval is greater than total, show an error. Otherwise hide inputs and begin the countdown.
-    if (mediApp.intervalTime > mediApp.meditationTime) {
+    // If total meditation time is 0 or if interval is greater than total time, show an error. Otherwise hide inputs and begin the countdown.
+    if (mediApp.meditationTime === 0) {
+      $('.error').html(`<p>Your meditation time cannot be zero minutes.</p>`)
+    } else if (mediApp.intervalTime > mediApp.meditationTime) {
       $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
       mediApp.singleGong.play();
