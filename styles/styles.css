@@ -274,6 +274,17 @@ header {
   margin: 60px auto 60px;
 }
 
+.input-wrapper, .begin-meditation {
+  opacity: 0;
+}
+
+.preloader {
+  position: absolute;
+  top: calc(50%);
+  left: calc(50% - 50px);
+  z-index: 9999;
+}
+
 input, select {
   width: 4rem;
   background: rgba(255, 255, 255, 0.1);

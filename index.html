@@ -15,6 +15,19 @@
   </div>
   <div class="background background-2">
   </div>
+  <div class="preloader">
+    <svg width="100px" height="100px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+      preserveAspectRatio="xMidYMid" class="lds-eclipse"
+      style="shape-rendering: auto; animation-play-state: running; animation-delay: 0s; background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%;">
+      <path ng-attr-d="{{config.pathCmd}}" ng-attr-fill="{{config.color}}" stroke="none"
+        d="M5 50A45 45 0 0 0 95 50A45 47 0 0 1 5 50" fill="#ffffff"
+        style="animation-play-state: running; animation-delay: 0s;">
+        <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 51;360 50 51"
+          keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"
+          style="animation-play-state: running; animation-delay: 0s;"></animateTransform>
+      </path>
+    </svg>
+  </div>
   <div class="darken">
     <header class="wrapper">
       <div class="logo">
@@ -28,21 +41,23 @@
       <div class="form-wrapper">
         <form action="">
           <div class="input-wrapper">
-              <span>I want to meditate for</span>
+              <p>
+                I want to meditate for
                 <input type="textbox" class="number-input" name="time" id="time" placeholder="30">
-              <label for="time" class="visuallyHidden">Meditation Time</label>
-              <span>minutes with a bell every </span>
-              <input class="number-input" type="textbox" name="interval" id="time" placeholder="5">
-              <label for="time" class="visuallyHidden">Interval</label>
-              <span>minutes, and </span>
-              <select name="noise" id="noise">
+                <label for="time" class="visuallyHidden">Meditation Time</label>
+                minutes with a bell every
+                <input class="number-input" type="textbox" name="interval" id="time" placeholder="5">
+                <label for="time" class="visuallyHidden">Interval</label>
+                minutes, and
+                <select name="noise" id="noise">
                   <option value="no">no</option>
                   <option value="rain">rain</option>
                   <option value="forest">forest</option>
                   <option value="river">river</option>
-              </select>
-              <label for="noise" class="visuallyHidden">Background Noise</label>
-              <span>noise in the background.</span>
+                </select>
+                <label for="noise" class="visuallyHidden">Background Noise</label>
+                noise in the background.
+              </p>
           </div>
           <div class="countdown"></div>
           <div class="end-message"></div>

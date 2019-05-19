@@ -265,6 +265,11 @@ mediApp.init = () => {
   mediApp.filterNumberInputs();
   mediApp.fillFields();
   mediApp.getInput();
+  $(window).load(function () {
+    $('.preloader').fadeOut('slow');
+    mediApp.$beginButton.animate({ opacity: '1' }, 'slow');
+    mediApp.$inputs.animate({ opacity: '1' }, 'slow');
+  });
   // mediApp.reset();
   
 }
