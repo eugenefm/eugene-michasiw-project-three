@@ -122,7 +122,7 @@ footer {
   text-align: center;
 }
 
-@media only screen and (orientation: landscape) and (max-width: 700px), only screen and (max-height: 415px) {
+@media only screen and (max-height: 515px) {
   .wrapper {
     justify-content: space-between;
   }
