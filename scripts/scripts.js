@@ -34,8 +34,9 @@ mediApp.$time = $('input[name=time]');
 mediApp.$interval = $('input[name=interval]');
 mediApp.$noise = $('select[name=noise]');
 
-// add input filter to jquery from https://jsfiddle.net/emkey08/tvx5e7q3
+
 (function ($) {
+  // add input filter to jquery from https://jsfiddle.net/emkey08/tvx5e7q3
   $.fn.inputFilter = function (inputFilter) {
     return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
       if (inputFilter(this.value)) {
@@ -48,7 +49,16 @@ mediApp.$noise = $('select[name=noise]');
       }
     });
   };
+  // preload image plugin
+  $.fn.preload = function () {
+    this.each(function () {
+      $('<img/>')[0].src = this;
+    });
+  }
 }(jQuery));
+
+
+
 
 // Uses Howler.js to play audio. It's required for it to work on mobile. However the current version throws an error in Firefox and is a known issue.
 mediApp.singleGong = new Howl({
@@ -142,15 +152,15 @@ mediApp.getInput = () => {
       // Change background noise and image based on user selection.
       if (mediApp.$noise.val() === `river`) {
         mediApp.$background1.css(`background`, `url('./../assets/river.jpg') 50% 50%/cover no-repeat`)
-        mediApp.$background2.delay(500).fadeOut('slow')
+        mediApp.$background2.delay(200).fadeOut('slow')
         mediApp.creekNoise.play();
       } else if (mediApp.$noise.val() === `forest`) {
         mediApp.$background1.css(`background`, `url('./../assets/forest.jpg') 50% 50%/cover no-repeat`)
-        mediApp.$background2.delay(500).fadeOut('slow')
+        mediApp.$background2.delay(200).fadeOut('slow')
         mediApp.forestNoise.play();
       } else if (mediApp.$noise.val() === `rain`) {
         mediApp.$background1.css(`background`, `url('./../assets/rain.jpg') 50% 50%/cover no-repeat`)
-        mediApp.$background2.delay(500).fadeOut('slow')
+        mediApp.$background2.delay(200).fadeOut('slow')
         mediApp.rainNoise.play();
       }
 
@@ -288,6 +298,7 @@ mediApp.init = () => {
   mediApp.filterNumberInputs();
   mediApp.fillFields();
   mediApp.getInput();
+  $([`./../assets/forest.jpg`, `./../assets/rain.jpg`, `./../assets/river.jpg`]).preload();
   $(window).load(function () {
     $('.preloader').fadeOut('slow');
     mediApp.$beginButton.animate({
