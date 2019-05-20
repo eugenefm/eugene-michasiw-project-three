@@ -294,9 +294,13 @@ header {
 
 .preloader {
   position: absolute;
-  top: calc(50%);
+  top: calc(50% - 50px);
   left: calc(50% - 50px);
   z-index: 9999;
+}
+
+.preloader img {
+  width: 100px;
 }
 
 input,
