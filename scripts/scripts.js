@@ -18,7 +18,7 @@ mediApp.meditationTime = 0;
 mediApp.intervalTime = 0;
 mediApp.countdownTime = 0;
 mediApp.intervalRemainder = 0;
-mediApp.backgroundNoise = '';
+mediApp.backgroundNoise = ``;
 
 // Uses NoSleep plugin to keep mobile devices awake for duration of the meditation.
 mediApp.noSleep = new NoSleep();
@@ -32,20 +32,20 @@ mediApp.$beginButton = $(`.begin-meditation`)
 mediApp.$endMessage = $(`.end-message`)
 mediApp.$background1 = $(`.background-1`)
 mediApp.$background2 = $(`.background-2`)
-mediApp.$time = $('input[name=time]');
-mediApp.$interval = $('input[name=interval]');
-mediApp.$noise = $('select[name=noise]');
+mediApp.$time = $(`input[name=time]`);
+mediApp.$interval = $(`input[name=interval]`);
+mediApp.$noise = $(`select[name=noise]`);
 
 
 (function ($) {
   // add input filter to jquery from https://jsfiddle.net/emkey08/tvx5e7q3
   $.fn.inputFilter = function (inputFilter) {
-    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+    return this.on(`input keydown keyup mousedown mouseup select contextmenu drop`, function () {
       if (inputFilter(this.value)) {
         this.oldValue = this.value;
         this.oldSelectionStart = this.selectionStart;
         this.oldSelectionEnd = this.selectionEnd;
-      } else if (this.hasOwnProperty("oldValue")) {
+      } else if (this.hasOwnProperty(`oldValue`)) {
         this.value = this.oldValue;
         this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
       }
@@ -54,7 +54,7 @@ mediApp.$noise = $('select[name=noise]');
   // preload image plugin
   $.fn.preload = function () {
     this.each(function () {
-      $('<img/>')[0].src = this;
+      $(`<img/>`)[0].src = this;
     });
   }
 }(jQuery));
@@ -62,35 +62,35 @@ mediApp.$noise = $('select[name=noise]');
 
 
 
-// Uses Howler.js to play audio. It's required for it to work on mobile. However the current version throws an error in Firefox and is a known issue.
+// Uses Howler.js to play audio. It`s required for it to work on mobile. However the current version throws an error in Firefox and is a known issue.
 mediApp.singleGong = new Howl({
-  src: ['./assets/single-gong.ogg', './assets/single-gong.mp3']
+  src: [`./assets/single-gong.ogg`, `./assets/single-gong.mp3`]
 });
 
 mediApp.doubleGong = new Howl({
-  src: ['./assets/double-gong.ogg', './assets/double-gong.mp3']
+  src: [`./assets/double-gong.ogg`, `./assets/double-gong.mp3`]
 });
 
 mediApp.rainNoise = new Howl({
-  src: ['./assets/rain.ogg', './assets/rain.m4a'],
+  src: [`./assets/rain.ogg`, `./assets/rain.m4a`],
   loop: true
 });
 
 mediApp.forestNoise = new Howl({
-  src: ['./assets/forest.ogg', './assets/forest.m4a'],
+  src: [`./assets/forest.ogg`, `./assets/forest.m4a`],
   loop: true
 });
 
 mediApp.creekNoise = new Howl({
-  src: ['./assets/creek.ogg', './assets/creek.m4a'],
+  src: [`./assets/creek.ogg`, `./assets/creek.m4a`],
   loop: true
 });
 
 
 // Filter inputs with the inputFilter plugin
 mediApp.filterNumberInputs = () => {
-  $(".number-input").inputFilter(function (value) {
-    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 999);
+  $(`.number-input`).inputFilter((value) => {
+    return /^\d*$/.test(value) && (value === `` || parseInt(value) <= 999);
   });
 }
 
@@ -101,11 +101,11 @@ mediApp.getParameterByName = (name) => {
   var regex = new RegExp(regexS);
   var results = regex.exec(window.location.href);
   if (results == null && name === `noise`) {
-    return "no";
+    return `no`;
   } else if (results == null) {
-    return "";
+    return ``;
   } else {
-    return decodeURIComponent(results[1].replace(/\+/g, " "));
+    return decodeURIComponent(results[1].replace(/\+/g, ` `));
   }
 }
 
@@ -118,51 +118,51 @@ mediApp.fillFields = () => {
 
 // Get field inputs on button click, validate and begin meditation.
 mediApp.getInput = () => {
-  mediApp.$beginButton.on('click', function (e) {
+  mediApp.$beginButton.on(`click`, function (e) {
     e.preventDefault();
 
     // Clear error messages
-    $('.error').empty()
+    $(`.error`).empty()
 
     // If the value of the inputs is blank save the placeholder to a variable, otherwise save the value to a variable
-    if (mediApp.$time.val() === '') {
-      mediApp.meditationTime = Number(mediApp.$time.attr('placeholder'));
+    if (mediApp.$time.val() === ``) {
+      mediApp.meditationTime = Number(mediApp.$time.attr(`placeholder`));
     } else {
       mediApp.meditationTime = Number(mediApp.$time.val());
     }
-    if (mediApp.$interval.val() === '') {
-      mediApp.intervalTime = Number(mediApp.$interval.attr('placeholder'));
+    if (mediApp.$interval.val() === ``) {
+      mediApp.intervalTime = Number(mediApp.$interval.attr(`placeholder`));
     } else {
       mediApp.intervalTime = Number(mediApp.$interval.val());
     }
 
     // If total meditation time is 0 or if interval is greater than total time, show an error. Otherwise hide inputs and begin the countdown.
     if (mediApp.meditationTime === 0) {
-      $('.error').html(`<p>Your meditation time cannot be zero minutes.</p>`)
+      $(`.error`).html(`<p>Your meditation time cannot be zero minutes.</p>`)
     } else if (mediApp.intervalTime > mediApp.meditationTime) {
-      $('.error').html(`<p>Your interval time cannot be greater than your total time.</p>`)
+      $(`.error`).html(`<p>Your interval time cannot be greater than your total time.</p>`)
     } else {
       mediApp.singleGong.play();
       mediApp.noSleep.enable();
 
       // Toggle buttons
-      mediApp.$beginButton.toggleClass('hide-button');
-      mediApp.$resetButton.toggleClass('hide-button');
+      mediApp.$beginButton.toggleClass(`hide-button`);
+      mediApp.$resetButton.toggleClass(`hide-button`);
 
       mediApp.$inputs.hide();
 
       // Change background noise and image based on user selection.
       if (mediApp.$noise.val() === `river`) {
         mediApp.$background1.css(`background`, `url('./../assets/river.jpg') 50% 50%/cover no-repeat`)
-        mediApp.$background2.delay(200).fadeOut('slow')
+        mediApp.$background2.delay(200).fadeOut(`slow`)
         mediApp.creekNoise.play();
       } else if (mediApp.$noise.val() === `forest`) {
         mediApp.$background1.css(`background`, `url('./../assets/forest.jpg') 50% 50%/cover no-repeat`)
-        mediApp.$background2.delay(200).fadeOut('slow')
+        mediApp.$background2.delay(200).fadeOut(`slow`)
         mediApp.forestNoise.play();
       } else if (mediApp.$noise.val() === `rain`) {
         mediApp.$background1.css(`background`, `url('./../assets/rain.jpg') 50% 50%/cover no-repeat`)
-        mediApp.$background2.delay(200).fadeOut('slow')
+        mediApp.$background2.delay(200).fadeOut(`slow`)
         mediApp.rainNoise.play();
       }
 
@@ -180,7 +180,7 @@ mediApp.endMessage = () => {
   mediApp.$endMessage.show();
   mediApp.$endMessage.html(`<p>Your meditation has ended.</p><p class="url">Bookmark this URL to save your settings:</p><p class="url"><a href="https://meditate.ninja/?time=${mediApp.meditationTime}&interval=${mediApp.intervalTime}&noise=${mediApp.$noise.val()}">https://meditate.ninja/?time=${mediApp.meditationTime}&interval=${mediApp.intervalTime}&noise=${mediApp.$noise.val()}</a></p>`);
   mediApp.$subheading.html(`<p>A simple meditation timer.</p>`);
-  mediApp.$resetButton.text('Restart')
+  mediApp.$resetButton.text(`Restart`)
 }
 
 // Calculate the time remaining
@@ -226,9 +226,9 @@ mediApp.countdown = (time, prepare) => {
     // Updates the visual display of the clock
     const updateClock = () => {
       const t = mediApp.timeRemaining(endtime);
-      const displayHours = (t.hours === 0 ? '' : t.hours + ':');
-      const displayMinutes = (t.minutes < 10 ? '0' : '') + t.minutes;
-      const displaySeconds = (t.seconds < 10 ? '0' : '') + t.seconds;
+      const displayHours = (t.hours === 0 ? `` : t.hours + `:`);
+      const displayMinutes = (t.minutes < 10 ? `0` : ``) + t.minutes;
+      const displaySeconds = (t.seconds < 10 ? `0` : ``) + t.seconds;
 
       mediApp.$countdown.html(`<p class="time">${displayHours}${displayMinutes}:${displaySeconds}</p>`);
       mediApp.countdownTime = t.total;
@@ -253,7 +253,7 @@ mediApp.countdown = (time, prepare) => {
       }
 
       // reset app on button click
-      mediApp.$resetButton.on('click', (e) => {
+      mediApp.$resetButton.on(`click`, (e) => {
         e.preventDefault();
         clearInterval(timeinterval);
         mediApp.reset();
@@ -262,17 +262,17 @@ mediApp.countdown = (time, prepare) => {
     updateClock();
     const timeinterval = setInterval(updateClock, 1000);
   }
-  runClock('clockdiv', deadline);
+  runClock(`clockdiv`, deadline);
 
 }
 
 // Reset the app back to its intial settings and return to start
 mediApp.reset = () => {
 
-  mediApp.$resetButton.text('End Meditation')
+  mediApp.$resetButton.text(`End Meditation`)
 
-  mediApp.$beginButton.removeClass('hide-button');
-  mediApp.$resetButton.addClass('hide-button');
+  mediApp.$beginButton.removeClass(`hide-button`);
+  mediApp.$resetButton.addClass(`hide-button`);
 
   mediApp.$subheading.html(`<p>A simple meditation timer.</p>`)
 
@@ -300,16 +300,15 @@ mediApp.init = () => {
   mediApp.filterNumberInputs();
   mediApp.fillFields();
   mediApp.getInput();
-  $([`./../assets/background.jpg`, `./../assets/forest.jpg`, `./../assets/rain.jpg`, `./../assets/river.jpg`
-  ]).preload();
+  $([`./../assets/background.jpg`, `./../assets/forest.jpg`, `./../assets/rain.jpg`, `./../assets/river.jpg`]).preload();
   $(window).load(function () {
-    $('.preloader').fadeOut('slow');
+    $(`.preloader`).fadeOut(`slow`);
     mediApp.$beginButton.animate({
-      opacity: '1'
-    }, 'slow');
+      opacity: `1`
+    }, `slow`);
     mediApp.$inputs.animate({
-      opacity: '1'
-    }, 'slow');
+      opacity: `1`
+    }, `slow`);
   });
 
 }

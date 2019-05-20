@@ -13,19 +13,23 @@ select {
   font-weight: 300;
   font-size: 1rem;
 }
+
 a {
   color: #fff;
 }
+
 select {
   appearance: none;
 
   &::-ms-expand {
-  display: none;
+    display: none;
   }
 }
+
 option {
   color: black;
 }
+
 h1 {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;

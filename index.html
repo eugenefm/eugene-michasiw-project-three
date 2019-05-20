@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,12 +15,14 @@
   <meta name="msapplication-TileColor" content="#15372a">
   <meta name="msapplication-config" content="./assets/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
-  
+
   <link rel="stylesheet" href="./styles/styles.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300|Playfair+Display:700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300|Playfair+Display:700" rel="stylesheet">
   <title>Meditate.ninja</title>
 </head>
+
 <body>
   <div class="background background-1"></div>
   <div class="background background-2"></div>
@@ -50,40 +53,42 @@
       <main>
         <form action="">
           <div class="input-wrapper">
-              <p>
-                I want to meditate for
-                <input type="textbox" class="number-input" name="time" id="time" placeholder="30">
-                <label for="time" class="visuallyHidden">Meditation Time</label>
-                minutes with a bell every
-                <input class="number-input" type="textbox" name="interval" id="time" placeholder="5">
-                <label for="time" class="visuallyHidden">Interval</label>
-                minutes, and
-                <select name="noise" id="noise">
-                  <option value="no">no</option>
-                  <option value="rain">rain</option>
-                  <option value="forest">forest</option>
-                  <option value="river">river</option>
-                </select>
-                <label for="noise" class="visuallyHidden">Background Noise</label>
-                noise in the background.
-              </p>
+            <p>
+              I want to meditate for
+              <input type="textbox" class="number-input" name="time" id="time" placeholder="30">
+              <label for="time" class="visuallyHidden">Meditation Time</label>
+              minutes with a bell every
+              <input class="number-input" type="textbox" name="interval" id="time" placeholder="5">
+              <label for="time" class="visuallyHidden">Interval</label>
+              minutes, and
+              <select name="noise" id="noise">
+                <option value="no">no</option>
+                <option value="rain">rain</option>
+                <option value="forest">forest</option>
+                <option value="river">river</option>
+              </select>
+              <label for="noise" class="visuallyHidden">Background Noise</label>
+              noise in the background.
+            </p>
           </div>
           <div class="countdown"></div>
           <div class="end-message"></div>
           <button class="begin-meditation">Meditate</button>
           <button class="reset-meditation hide-button">End Meditation</button>
-          
+
           <div class="error"></div>
         </form>
       </main>
     </div>
     <footer>
-      <p>Made with <i class="fas fa-heart"></i> by <a href="https://michasiw.com" class="href">Eugene Michasiw</a></p>
+      <p>Made with <i aria-hidden="true" class="fas fa-heart"></i><span class="visuallyHidden">love</span> by <a
+          href="https://michasiw.com" class="href">Eugene Michasiw</a></p>
     </footer>
-  </div> 
+  </div>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js"></script>
   <script src="./scripts/NoSleep.min.js"></script>
   <script src="./scripts/scripts.js"></script>
 </body>
+
 </html>
