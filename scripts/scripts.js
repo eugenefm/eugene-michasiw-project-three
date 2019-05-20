@@ -298,7 +298,8 @@ mediApp.init = () => {
   mediApp.filterNumberInputs();
   mediApp.fillFields();
   mediApp.getInput();
-  $([`./../assets/forest.jpg`, `./../assets/rain.jpg`, `./../assets/river.jpg`]).preload();
+  $([`./../assets/background.jpg`, `./../assets/forest.jpg`, `./../assets/rain.jpg`, `./../assets/river.jpg`
+  ]).preload();
   $(window).load(function () {
     $('.preloader').fadeOut('slow');
     mediApp.$beginButton.animate({
