@@ -19,6 +19,8 @@ mediApp.intervalTime = 0;
 mediApp.countdownTime = 0;
 mediApp.intervalRemainder = 0;
 mediApp.backgroundNoise = '';
+
+// Uses NoSleep plugin to keep mobile devices awake for duration of the meditation.
 mediApp.noSleep = new NoSleep();
 
 // Caching elements to jquery variable
